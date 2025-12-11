@@ -3,8 +3,8 @@ import requests
 # === 1. Generar token ===
 auth_url = "https://api.eonwms.com/token/generate"
 auth_payload = {
-    "email": "training@chronos.mx",
-    "password": "thesecretwordiskadabra:30169ed6edb2e4bd4bbf0c349b5a9d2fa1141b12726f76cd76111e46b92043f1"
+    "email": "jeansalazar123@gmail.com",
+    "password": "solovendemoscalidad:574b2a563904baea5e7a9d365fba4aa9c36865e129270c5581debaf855271273"
 }
 
 auth_res = requests.post(auth_url, json=auth_payload)
@@ -19,7 +19,7 @@ headers = {
     "Content-Type": "application/json"
 }
 
-api_url = "https://apisandbox.eonwms.com/products"
+api_url = "https://api.eonwms.com/products"
 
 api_res = requests.get(api_url, headers=headers)
 print("Código:", api_res.status_code)
