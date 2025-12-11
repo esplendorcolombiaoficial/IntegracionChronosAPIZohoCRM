@@ -1,0 +1,20 @@
+{
+  "SalesOrder_Number": "SO-1001",
+  "Created_Time": "2025-11-28T12:00:00Z",
+  "Customer_Name": "Juan Pérez",
+  "Email": "juanperez@example.com",
+  "Phone": "5551234567",
+  "Billing_Street": "Av. Reforma 123",
+  "Billing_City": "Ciudad de México",
+  "Billing_State": "CDMX",
+  "Billing_Code": "01234",
+  "Billing_Country": "MX",
+  "Product_Details": [
+    {
+      "Product_Code": "SKU123",
+      "Quantity": 2,
+      "list_price": 100
+    }
+  ],
+  "Payment_Method": "COD"
+}

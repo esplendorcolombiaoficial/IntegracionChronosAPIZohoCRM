@@ -1,0 +1,82 @@
+void schedule.enviarOrdenesDeVenta()
+{
+    orders = zoho.crm.getRecords("Sales_Orders", 1, 200);
+
+    for each order in orders
+    {
+        data = Map();
+
+        // ----- DATOS PRINCIPALES -----
+        data.put("unique_order_number", order.get("SO_Number"));
+        data.put("shipping_service", order.get("Carrier"));
+        data.put("invoice", order.get("Purchase_Order"));
+        data.put("warehouse_id", 1);
+
+        // COD
+        data.put("cod", if(order.get("Status") == "Contraentrega", true, false));
+
+        // ----- CONSIGNEE -----
+        consignee = Map();
+
+        if(order.containKey("Contact_Name") && order.get("Contact_Name") != null)
+        {
+            contact = order.get("Contact_Name");
+            consignee.put("name", contact.get("name"));
+        }
+        else
+        {
+            consignee.put("name", "Sin nombre");
+        }
+
+        consignee.put("country", order.get("Billing_Country"));
+        consignee.put("state", order.get("Billing_State"));
+        consignee.put("municipality", order.get("Billing_City"));
+        consignee.put("neighborhood", order.get("Billing_Street"));
+        consignee.put("street", order.get("Billing_Street"));
+        consignee.put("external_number", "1");
+        consignee.put("zipcode", order.get("Billing_Code"));
+
+        data.put("consignee", consignee);
+
+        // ----- PRODUCTOS -----
+        items = List();
+
+        if(order.containKey("Product_Details") && order.get("Product_Details") != null)
+        {
+            for each line in order.get("Product_Details")
+            {
+                product = line.get("product");
+
+                item = Map();
+                item.put("quantity", line.get("quantity"));
+                item.put("sku", product.get("Product_Code"));
+                item.put("unit_price", line.get("list_price"));
+
+                items.add(item);
+            }
+        }
+
+        data.put("order_details", items);
+
+        // TOTAL
+        data.put("total_price", order.get("Grand_Total"));
+
+        // ---- PREPARAR JSON ----
+        data_json = data.toString().replaceAll("=", ":");
+
+        // ---- ENVÍO ----
+        url = "https://unspiritualised-trudi-subcylindric.ngrok-free.dev/zoho-orders";
+
+        response = invokeurl
+        [
+            url : url
+            type : POST
+            parameters : data_json
+            headers : {"Content-Type":"application/json"}
+        ];
+
+        info response;
+    }
+}
+
+
