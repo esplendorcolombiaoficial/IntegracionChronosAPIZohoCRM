@@ -2,6 +2,7 @@ import express from "express";
 import fetch from "node-fetch";
 import cors from "cors";
 import dotenv from "dotenv";
+
 dotenv.config();
 
 const app = express();
@@ -9,12 +10,12 @@ app.use(cors());
 app.use(express.json());
 
 // =======================================
-//   ENVIAR ORDEN A CHRONOS (PRODUCCIÓN)
+//   ENVIAR ORDEN A CHRONOS (Producción)
 // =======================================
 const sendOrderToChronos = async (orderData) => {
   try {
     const response = await fetch(
-      `${process.env.EON_API}/v1/client/shipment/create`,   // ← PRODUCCIÓN
+      `${process.env.EON_API}/shipment/create`,
       {
         method: "POST",
         headers: {
@@ -28,7 +29,6 @@ const sendOrderToChronos = async (orderData) => {
 
     const json = await response.json();
     return { status: response.status, data: json };
-
   } catch (err) {
     return { status: 500, data: { error: err.message } };
   }
@@ -42,6 +42,7 @@ app.post("/zoho-orders", async (req, res) => {
     const zohoOrder = req.body;
     console.log("📨 Recibido de Zoho:", JSON.stringify(zohoOrder, null, 2));
 
+    // Enviar a Chronos directamente
     const chronosResponse = await sendOrderToChronos(zohoOrder);
 
     console.log("📦 Respuesta Chronos:", chronosResponse);
