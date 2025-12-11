@@ -1,7 +1,7 @@
 import requests
 
 # === 1. Generar token ===
-auth_url = "https://apisandbox.eonwms.com/token/generate"
+auth_url = "https://api.eonwms.com/token/generate"
 auth_payload = {
     "email": "training@chronos.mx",
     "password": "thesecretwordiskadabra:30169ed6edb2e4bd4bbf0c349b5a9d2fa1141b12726f76cd76111e46b92043f1"
